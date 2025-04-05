@@ -1,50 +1,16 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Home from './Home.jsx'
-import ItemDetailPage from "./ItemDetailPage.jsx";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import InputCreate from './InputCreate';
 
-
-const App = () => {
-  const [data, setData] = useState(null)
-  const urlApi = 'http://localhost:3000'
-
-const fetchData = async () => {
-  try {
-    const response = await fetch(urlApi)
-    const resData = await response.json()
-    setData(resData)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-useEffect(() => {
-  fetchData()
-}, [])
-
+function App() {
   return (
     <Router>
-      <div>
-        <nav>
-          <Link to="/">Inicio</Link>
-     
-        </nav>
-        {data === null 
-        ? (<div>cargando...</div>) 
-        : 
-          <Routes>
-            <Route path="/" element={<Home data={data} />} />
-           
-            {data.map(item => (
-              <Route key={item._id} path={`/${item._id}`} element={<ItemDetailPage item={item}/>} />
-            ))
-            }
-          </Routes>
-        }
-        
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />       {}
+        <Route path="/create" element={<InputCreate />} /> {}
+      </Routes>
     </Router>
-  )
-};
+  );
+}
 
 export default App;

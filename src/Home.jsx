@@ -1,17 +1,25 @@
-import {Link} from 'react-router-dom'
-const Home = ({data}) => {
+import React, { useEffect, useState } from 'react';
+
+const Home = () => {
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/tasks') // Ajusta la URL según tu backend
+      .then((res) => res.json())
+      .then((data) => setTasks(data))
+      .catch((error) => console.error('Error:', error));
+  }, []);
+
   return (
-    <>
-    <h2>Lista de datos</h2>
-    <ul>
-      {data.map(item => (
-        <li key={item._id}>
-          <Link to={`/${item._id}`}>{item.title}</Link>
-        </li>
-      ))}
-    </ul>
-    </>
-  )
+    <div>
+      <h1>Lista de Tareas</h1>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>{task.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default Home;
